@@ -1,0 +1,50 @@
+.homeCard_container {
+  width: 360px;
+  height: 530px;
+  border-radius: 5px;
+  background-color: var(--card-color);
+}
+.card_image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.common,
+.message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.common p:first-child {
+  margin-right: 5px;
+}
+.card_btn {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.watch_btn {
+  margin-top: 5px;
+  cursor: pointer;
+  border: none;
+  height: 30px;
+  border-radius: 20px;
+  width: 300px;
+  background-color: var(--watch-btn-color);
+}
+.accept_btn,
+.reject_btn {
+  width: 120px;
+  cursor: pointer;
+  margin-top: 10px;
+  height: 30px;
+  border: none;
+  border-radius: 20px;
+}
+.accept_btn {
+  background-color: var(--accept-btn-color);
+}
+.reject_btn {
+  background-color: var(--reject-btn-color);
+}

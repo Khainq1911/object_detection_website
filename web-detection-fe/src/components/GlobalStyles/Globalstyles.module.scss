@@ -1,7 +1,11 @@
 @import "normalize.css";
 :root {
   --header-color: #415a80;
-  --hover-header-color:darkgrey;
+  --hover-header-color: darkgrey;
+  --card-color: #a5d4dc;
+  --watch-btn-color: #dca5c1;
+  --accept-btn-color: #dcd4a5;
+  --reject-btn-color: #c1dca5;
 }
 * {
   margin: 0;

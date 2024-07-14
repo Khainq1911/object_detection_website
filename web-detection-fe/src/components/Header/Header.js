@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./Header.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faChartPie, faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faChartPie, faHouse, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 const url = "http://localhost:1911/";
@@ -29,13 +29,18 @@ function Header() {
               Chart
             </a>
           </li>
+          <li>
+            <a href={url}>
+              <FontAwesomeIcon icon={faMagnifyingGlass} className={cx("icon")} />
+              Search
+            </a>
+          </li>
         </ul>
       </nav>
       <div className={cx("header_menu_container")} onClick={handleOpenMenu}>
         <FontAwesomeIcon icon={faBars} />
         {activeMenu && (
           <div className={cx("menu")}>
-            <p>Filter Data</p>
             <p>Account</p>
             <p>Logout</p>
           </div>

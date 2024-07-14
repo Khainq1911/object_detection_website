@@ -1,0 +1,11 @@
+.home_container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+.card_wrap {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}

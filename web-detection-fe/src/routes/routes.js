@@ -1,9 +1,11 @@
+import routesConfig from "~/config/routes";
+
 import Chart from "~/pages/chart";
 import Home from "~/pages/home";
 
 const publicRoutes = [
-  { path: "/", component: Home },
-  { path: "/chart", component: Chart },
+  { path: routesConfig.home, component: Home },
+  { path: routesConfig.chart, component: Chart },
 ];
 const privateRoutes = [];
 
