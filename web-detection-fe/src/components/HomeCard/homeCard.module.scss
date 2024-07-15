@@ -48,3 +48,9 @@
 .reject_btn {
   background-color: var(--reject-btn-color);
 }
+.watch_btn:hover,
+.accept_btn:hover,
+.reject_btn:hover {
+  transform: scale(1.1);
+  transition: 0.3s;
+}

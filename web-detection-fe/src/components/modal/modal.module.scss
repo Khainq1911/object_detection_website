@@ -1,0 +1,83 @@
+.modal_container {
+  margin-top: 60px;
+  width: 1400px;
+  max-height: 800px;
+  background-color: var(--card-color);
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  overflow-x: hidden;
+}
+
+.modal_header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #000;
+  padding-right: 17px;
+}
+.modal_header p {
+  margin-left: 10px;
+}
+.icon {
+  cursor: pointer;
+}
+.video {
+  margin-top: 30px;
+  padding-right: 17px;
+}
+.header_infor {
+  padding-right: 17px;
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.infor_wrapper {
+  width: 20%;
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin: 10px; /* Added margin for spacing */
+  padding: 10px; /* Added padding for better spacing inside the box */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.common {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #000;
+  padding: 10px 0; /* Added padding for better spacing */
+}
+.common p:first-child {
+  margin-right: 5px;
+}
+
+.modal_btn_wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+  border-top: 1px solid #000;
+}
+.accept_btn,
+.reject_btn {
+  width: 70px;
+  height: 40px;
+  margin: 10px 20px;
+  border-radius: 5px;
+  border: none;
+}
+.accept_btn {
+  background-color: var(--accept-btn-color);
+}
+.reject_btn {
+  background-color: var(--reject-btn-color);
+}
