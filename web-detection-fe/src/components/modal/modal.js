@@ -2,9 +2,29 @@ import classNames from "classnames/bind";
 import styles from "./modal.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import * as homeServices from "~/services/homeService";
 
 const cx = classNames.bind(styles);
 function Modal({ data, handleCloseModal }) {
+  const messageId = data.message_id;
+
+  const acceptMessage = async () => {
+    try {
+      const res = await homeServices.acceptMessage(messageId);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const rejectMessage = async () => {
+    try {
+      const res = await homeServices.rejectMessage(messageId);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={cx("modal_container")}>
       <div className={cx("modal_header")}>
@@ -91,8 +111,24 @@ function Modal({ data, handleCloseModal }) {
         })}
       </div>
       <div className={cx("modal_btn_wrapper")}>
-        <button className={cx("accept_btn")}>Accept</button>
-        <button className={cx("reject_btn")}>Reject</button>
+        <button
+          className={cx("accept_btn")}
+          onClick={() => {
+            acceptMessage();
+            handleCloseModal();
+          }}
+        >
+          Accept
+        </button>
+        <button
+          className={cx("reject_btn")}
+          onClick={() => {
+            rejectMessage();
+            handleCloseModal();
+          }}
+        >
+          Reject
+        </button>
       </div>
     </div>
   );

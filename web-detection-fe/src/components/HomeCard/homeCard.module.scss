@@ -46,11 +46,22 @@
   background-color: var(--accept-btn-color);
 }
 .reject_btn {
+  margin-left: 60px;
   background-color: var(--reject-btn-color);
 }
 .watch_btn:hover,
 .accept_btn:hover,
-.reject_btn:hover {
+.reject_btn:hover,
+.discard_btn:hover {
   transform: scale(1.1);
   transition: 0.3s;
+}
+.discard_btn {
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+  height: 30px;
+  border-radius: 20px;
+  width: 300px;
+  background-color: var(--reject-btn-color);
 }

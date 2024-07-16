@@ -1,18 +1,22 @@
 import classNames from "classnames/bind";
 import styles from "./homeCard.module.scss";
-import { useParams } from "react-router-dom";
+
 import * as homeServices from "~/services/homeService";
 
 const cx = classNames.bind(styles);
 
-function HomeCard({ data, className, handleGetMessage, handleActiveModal }) {
-  let { messageId } = useParams();
-  messageId = data.message_id;
+function HomeCard({
+  data,
+  className,
+  handleGetMessage,
+  handleActiveModal,
+  handleUpdateData,
+}) {
+  const messageId = data.message_id;
 
   const acceptMessage = async () => {
     try {
       const res = await homeServices.acceptMessage(messageId);
-      console.log(res.data.message);
       return res;
     } catch (error) {
       console.log(error);
@@ -21,7 +25,6 @@ function HomeCard({ data, className, handleGetMessage, handleActiveModal }) {
   const rejectMessage = async () => {
     try {
       const res = await homeServices.rejectMessage(messageId);
-      console.log(res.data.message);
       return res;
     } catch (error) {
       console.log(error);
@@ -30,7 +33,6 @@ function HomeCard({ data, className, handleGetMessage, handleActiveModal }) {
   const discardAckMessage = async () => {
     try {
       const res = await homeServices.discardAckMessage(messageId);
-      console.log(res.data.message);
       return res;
     } catch (error) {
       console.log(error);
@@ -76,7 +78,13 @@ function HomeCard({ data, className, handleGetMessage, handleActiveModal }) {
         </div>
         <div className={cx("status", "common")}>
           <p>Status:</p>
-          <p>Pending</p>
+          <p>
+            {data.status === null
+              ? "Pending"
+              : data.status === true
+              ? "Accepted"
+              : "Rejected"}
+          </p>
         </div>
       </div>
       <div className={cx("card_btn")}>
@@ -89,22 +97,37 @@ function HomeCard({ data, className, handleGetMessage, handleActiveModal }) {
         >
           Watch Video
         </button>
-        <button
-          className={cx("accept_btn")}
-          onClick={() => {
-            acceptMessage();
-          }}
-        >
-          Accept
-        </button>
-        <button
-          className={cx("reject_btn")}
-          onClick={() => {
-            rejectMessage();
-          }}
-        >
-          Reject
-        </button>
+        {data.status === null ? (
+          <div>
+            <button
+              className={cx("accept_btn")}
+              onClick={() => {
+                acceptMessage();
+                handleUpdateData();
+              }}
+            >
+              Accept
+            </button>
+            <button
+              className={cx("reject_btn")}
+              onClick={() => {
+                rejectMessage();
+                handleUpdateData();
+              }}
+            >
+              Reject
+            </button>
+          </div>
+        ) : (
+          <button
+            className={cx("discard_btn")}
+            onClick={() => {
+              discardAckMessage();
+            }}
+          >
+            Discard-Ack
+          </button>
+        )}
       </div>
     </div>
   );

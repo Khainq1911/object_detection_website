@@ -11,18 +11,27 @@ function Home() {
   const [modalMessage, setModalMessage] = useState(null);
   const [activeModal, setActiveModel] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await apiServices.getMessage();
-        setData(res.data);
-        return res.data;
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const res = await apiServices.getMessage();
+      setData(res.data);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleUpdateData = () => {
     fetchData();
-  }, []);
+  };
+  useEffect(() => {
+    /* const shortPolling = setInterval(() => {
+      fetchData();
+    }, 5000);
+    return () => {
+      clearInterval(shortPolling);
+    }; */
+    fetchData();
+  }, [data]);
 
   const handleGetMessage = (message) => {
     setModalMessage(message);
@@ -47,6 +56,7 @@ function Home() {
               className={cx("home_card")}
               handleGetMessage={() => handleGetMessage(message)}
               handleActiveModal={handleActiveModal}
+              handleUpdateData={handleUpdateData}
             />
           </div>
         );
