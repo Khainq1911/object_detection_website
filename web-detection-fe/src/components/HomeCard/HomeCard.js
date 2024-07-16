@@ -1,9 +1,42 @@
 import classNames from "classnames/bind";
 import styles from "./homeCard.module.scss";
+import { useParams } from "react-router-dom";
+import * as homeServices from "~/services/homeService";
 
 const cx = classNames.bind(styles);
 
-function HomeCard({ data, className }) {
+function HomeCard({ data, className, handleGetMessage, handleActiveModal }) {
+  let { messageId } = useParams();
+  messageId = data.message_id;
+
+  const acceptMessage = async () => {
+    try {
+      const res = await homeServices.acceptMessage(messageId);
+      console.log(res.data.message);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const rejectMessage = async () => {
+    try {
+      const res = await homeServices.rejectMessage(messageId);
+      console.log(res.data.message);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const discardAckMessage = async () => {
+    try {
+      const res = await homeServices.discardAckMessage(messageId);
+      console.log(res.data.message);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={cx("homeCard_container", className)}>
       <img src={data.image_url} className={cx("card_image")} alt="Card" />
@@ -47,9 +80,31 @@ function HomeCard({ data, className }) {
         </div>
       </div>
       <div className={cx("card_btn")}>
-        <button className={cx("watch_btn")}>Watch Video</button>
-        <button className={cx("accept_btn")}>Accept</button>
-        <button className={cx("reject_btn")}>Reject</button>
+        <button
+          className={cx("watch_btn")}
+          onClick={() => {
+            handleActiveModal();
+            handleGetMessage();
+          }}
+        >
+          Watch Video
+        </button>
+        <button
+          className={cx("accept_btn")}
+          onClick={() => {
+            acceptMessage();
+          }}
+        >
+          Accept
+        </button>
+        <button
+          className={cx("reject_btn")}
+          onClick={() => {
+            rejectMessage();
+          }}
+        >
+          Reject
+        </button>
       </div>
     </div>
   );

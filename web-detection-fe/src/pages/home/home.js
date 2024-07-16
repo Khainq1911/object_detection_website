@@ -8,7 +8,7 @@ import Modal from "~/components/modal";
 const cx = classNames.bind(styles);
 function Home() {
   const [data, setData] = useState([]);
-  const [modalMessage, setModalMessage] = useState([]);
+  const [modalMessage, setModalMessage] = useState(null);
   const [activeModal, setActiveModel] = useState(false);
 
   useEffect(() => {
@@ -25,26 +25,35 @@ function Home() {
   }, []);
 
   const handleGetMessage = (message) => {
-    setActiveModel(!activeModal);
     setModalMessage(message);
+  };
+  const handleActiveModal = () => {
+    setActiveModel(!activeModal);
     document.body.style.overflow = "hidden";
   };
-
+  const handleCloseModal = () => {
+    setActiveModel(!activeModal);
+    document.body.style.overflow = "auto";
+  };
   return (
     <div className={cx("home_container")}>
       {activeModal && <div className={cx("overlay")}></div>}
       {data.map((message, index) => {
         return (
-          <div
-            key={index}
-            className={cx("card_wrap")}
-            onClick={() => handleGetMessage(message)}
-          >
-            <HomeCard key={index} data={message} className={cx("home_card")} />
+          <div key={index} className={cx("card_wrap")}>
+            <HomeCard
+              key={index}
+              data={message}
+              className={cx("home_card")}
+              handleGetMessage={() => handleGetMessage(message)}
+              handleActiveModal={handleActiveModal}
+            />
           </div>
         );
       })}
-      {activeModal && <Modal data={modalMessage} />}
+      {activeModal && (
+        <Modal data={modalMessage} handleCloseModal={handleCloseModal} />
+      )}
     </div>
   );
 }

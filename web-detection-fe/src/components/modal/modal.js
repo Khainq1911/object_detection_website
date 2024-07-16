@@ -4,12 +4,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
 const cx = classNames.bind(styles);
-function Modal({ data }) {
+function Modal({ data, handleCloseModal }) {
   return (
     <div className={cx("modal_container")}>
       <div className={cx("modal_header")}>
         <p>{data.message_id}</p>
-        <FontAwesomeIcon icon={faX} className={cx("icon")} />
+        <FontAwesomeIcon
+          icon={faX}
+          className={cx("icon")}
+          onClick={() => {
+            handleCloseModal();
+          }}
+        />
       </div>
       <video
         width="1400"
