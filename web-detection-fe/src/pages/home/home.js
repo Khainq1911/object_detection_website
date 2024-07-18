@@ -4,12 +4,16 @@ import * as apiServices from "~/services/homeService";
 import classNames from "classnames/bind";
 import styles from "./home.module.scss";
 import Modal from "~/components/modal";
+import ModalConfirm from "~/components/modalConfirm";
 
 const cx = classNames.bind(styles);
 function Home() {
   const [data, setData] = useState([]);
   const [modalMessage, setModalMessage] = useState(null);
   const [activeModal, setActiveModal] = useState(false);
+  const [activeConfirm, setActiveConfirm] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState(null);
+  const [action, setAction] = useState();
 
   const fetchData = async () => {
     try {
@@ -19,9 +23,6 @@ function Home() {
     } catch (error) {
       console.log(error);
     }
-  };
-  const handleUpdateData = async () => {
-    await fetchData();
   };
 
   const handleMessageAction = async (action, messageId) => {
@@ -37,6 +38,9 @@ function Home() {
       if (res) {
         handleUpdateData();
       }
+      if (activeModal) {
+        setActiveModal(!activeModal);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -45,14 +49,19 @@ function Home() {
     fetchData();
     const shortPolling = setInterval(() => {
       fetchData();
-    }, 5000);
+    }, 50000);
     return () => {
       clearInterval(shortPolling);
     };
   }, []);
 
+  const handleUpdateData = async () => {
+    await fetchData();
+  };
+
   const handleGetMessage = (message) => {
     setModalMessage(message);
+    setConfirmMessage(message);
   };
   const handleActiveModal = () => {
     setActiveModal(!activeModal);
@@ -61,6 +70,16 @@ function Home() {
   const handleCloseModal = () => {
     setActiveModal(!activeModal);
     document.body.style.overflow = "auto";
+  };
+
+  const handleActiveConfirm = () => {
+    setActiveConfirm(!activeConfirm);
+  };
+  const handleCloseConfirm = () => {
+    setActiveConfirm(!activeConfirm);
+  };
+  const handleSetAction = (action) => {
+    setAction(action);
   };
   return (
     <div className={cx("home_container")}>
@@ -75,6 +94,8 @@ function Home() {
               handleActiveModal={handleActiveModal}
               handleUpdateData={handleUpdateData}
               handleMessageAction={handleMessageAction}
+              handleActiveConfirm={handleActiveConfirm}
+              handleSetAction={handleSetAction}
             />
           </div>
         );
@@ -83,6 +104,18 @@ function Home() {
         <Modal
           data={modalMessage}
           handleCloseModal={handleCloseModal}
+          handleMessageAction={handleMessageAction}
+          handleActiveConfirm={handleActiveConfirm}
+          handleSetAction={handleSetAction}
+        />
+      )}
+      {activeConfirm && <div className={cx("confirm")}></div>}
+      {activeConfirm && (
+        <ModalConfirm
+          data={confirmMessage}
+          action={action}
+          handleCloseConfirm={handleCloseConfirm}
+          handleCloseModal={handleActiveModal}
           handleMessageAction={handleMessageAction}
         />
       )}

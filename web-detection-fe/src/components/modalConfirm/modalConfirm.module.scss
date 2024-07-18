@@ -1,0 +1,29 @@
+.modalConfirm {
+  width: 250px;
+  height: 75px;
+  background-color: aqua;
+  border-radius: 8px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+.modalConfirm p {
+  margin: 5px 0px 5px 10px;
+  font-size: 20px;
+}
+.confirm_btn {
+  float: right;
+}
+.confirm_btn button {
+  border-radius: 5px;
+  width: 55px;
+  height: 25px;
+  background-color: bisque;
+  border: none;
+  margin-right: 10px;
+}
+.confirm_btn button:first-child {
+  background-color: var(--watch-btn-color);
+}

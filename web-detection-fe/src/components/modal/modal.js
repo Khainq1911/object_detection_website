@@ -4,9 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
 const cx = classNames.bind(styles);
-function Modal({ data, handleCloseModal, handleMessageAction }) {
-  const messageId = data.message_id;
-
+function Modal({
+  data,
+  handleCloseModal,
+  handleActiveConfirm,
+}) {
   return (
     <div className={cx("modal_container")}>
       <div className={cx("modal_header")}>
@@ -95,18 +97,16 @@ function Modal({ data, handleCloseModal, handleMessageAction }) {
       <div className={cx("modal_btn_wrapper")}>
         <button
           className={cx("accept_btn")}
-          onClick={async () => {
-            await handleCloseModal();
-            await handleMessageAction("accept", messageId);
+          onClick={() => {
+            handleActiveConfirm();
           }}
         >
           Accept
         </button>
         <button
           className={cx("reject_btn")}
-          onClick={async () => {
-            await handleMessageAction("reject", messageId);
-            await handleCloseModal();
+          onClick={() => {
+            handleActiveConfirm();
           }}
         >
           Reject

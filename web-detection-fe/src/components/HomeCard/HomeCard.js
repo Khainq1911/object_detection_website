@@ -8,10 +8,9 @@ function HomeCard({
   className,
   handleGetMessage,
   handleActiveModal,
-  handleMessageAction,
+  handleActiveConfirm,
+  handleSetAction,
 }) {
-  const { message_id: messageId } = data;
-
   return (
     <div className={cx("homeCard_container", className)}>
       <img src={data.image_url} className={cx("card_image")} alt="Card" />
@@ -74,13 +73,21 @@ function HomeCard({
           <div>
             <button
               className={cx("accept_btn")}
-              onClick={() => handleMessageAction("accept", messageId)}
+              onClick={() => {
+                handleGetMessage(data);
+                handleSetAction("accept");
+                handleActiveConfirm();
+              }}
             >
               Accept
             </button>
             <button
               className={cx("reject_btn")}
-              onClick={() => handleMessageAction("reject", messageId)}
+              onClick={() => {
+                handleGetMessage(data);
+                handleSetAction("reject");
+                handleActiveConfirm();
+              }}
             >
               Reject
             </button>
@@ -88,7 +95,11 @@ function HomeCard({
         ) : (
           <button
             className={cx("discard_btn")}
-            onClick={() => handleMessageAction("discardAck", messageId)}
+            onClick={() => {
+              handleGetMessage(data);
+              handleSetAction("discardAck");
+              handleActiveConfirm();
+            }}
           >
             Discard-Ack
           </button>
