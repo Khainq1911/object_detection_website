@@ -1,8 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./homeCard.module.scss";
 
-import * as homeServices from "~/services/homeService";
-
 const cx = classNames.bind(styles);
 
 function HomeCard({
@@ -10,34 +8,9 @@ function HomeCard({
   className,
   handleGetMessage,
   handleActiveModal,
-  handleUpdateData,
+  handleMessageAction,
 }) {
-  const messageId = data.message_id;
-
-  const acceptMessage = async () => {
-    try {
-      const res = await homeServices.acceptMessage(messageId);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const rejectMessage = async () => {
-    try {
-      const res = await homeServices.rejectMessage(messageId);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const discardAckMessage = async () => {
-    try {
-      const res = await homeServices.discardAckMessage(messageId);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { message_id: messageId } = data;
 
   return (
     <div className={cx("homeCard_container", className)}>
@@ -92,7 +65,7 @@ function HomeCard({
           className={cx("watch_btn")}
           onClick={() => {
             handleActiveModal();
-            handleGetMessage();
+            handleGetMessage(data);
           }}
         >
           Watch Video
@@ -101,19 +74,13 @@ function HomeCard({
           <div>
             <button
               className={cx("accept_btn")}
-              onClick={() => {
-                acceptMessage();
-                handleUpdateData();
-              }}
+              onClick={() => handleMessageAction("accept", messageId)}
             >
               Accept
             </button>
             <button
               className={cx("reject_btn")}
-              onClick={() => {
-                rejectMessage();
-                handleUpdateData();
-              }}
+              onClick={() => handleMessageAction("reject", messageId)}
             >
               Reject
             </button>
@@ -121,9 +88,7 @@ function HomeCard({
         ) : (
           <button
             className={cx("discard_btn")}
-            onClick={() => {
-              discardAckMessage();
-            }}
+            onClick={() => handleMessageAction("discardAck", messageId)}
           >
             Discard-Ack
           </button>
