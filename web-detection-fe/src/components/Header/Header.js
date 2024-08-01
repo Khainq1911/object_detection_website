@@ -1,7 +1,12 @@
 import classNames from "classnames/bind";
 import styles from "./Header.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faChartPie, faHouse, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faChartPie,
+  faHouse,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 const url = "http://localhost:1911/";
@@ -31,8 +36,11 @@ function Header() {
           </li>
           <li>
             <a href={url}>
-              <FontAwesomeIcon icon={faMagnifyingGlass} className={cx("icon")} />
-              Search
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                className={cx("icon")}
+              />
+              Filter
             </a>
           </li>
         </ul>

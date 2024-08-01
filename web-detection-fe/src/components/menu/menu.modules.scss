@@ -1,0 +1,32 @@
+.menu_label {
+  width: 90px;
+  background-color: #fff;
+  margin-left: 10px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.menu_container li {
+  list-style-type: none;
+}
+.menu_container {
+  position: relative;
+}
+.menu_dropdown {
+  position: absolute;
+  background-color: #fff;
+  padding: 0 8px;
+  width: 90px;
+  cursor: pointer;
+  margin-left: 10px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+.filter_menu {
+  background-color: red;
+  padding: 8px 16px;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+}
