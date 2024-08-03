@@ -16,3 +16,15 @@ export const discardAckMessage = async (messageId) => {
   const response = await api.get(`/discard-ack/${messageId}`);
   return response;
 };
+export const filterData = async (
+  eventType,
+  timeFrom,
+  timeTo,
+  cameraID,
+  status
+) => {
+  const response = await api.get(
+    `filter/${eventType}/${timeFrom}/${timeTo}/${cameraID}/${status}`
+  );
+  return response.data;
+};

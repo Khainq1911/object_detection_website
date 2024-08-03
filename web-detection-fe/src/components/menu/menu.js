@@ -6,12 +6,12 @@ import styles from "./menu.modules.scss";
 
 const cx = classNames.bind(styles);
 
-function Menu({ data, isOpen, onToggle }) {
+function Menu({ data, isOpen, onToggle, getValue }) {
   const [text, setText] = useState(null);
 
   const setValue = (value) => {
     setText(value);
-    onToggle(); // Close dropdown after selecting an item
+    onToggle();
   };
 
   return (
@@ -26,7 +26,13 @@ function Menu({ data, isOpen, onToggle }) {
       {isOpen && (
         <ul className={cx("menu_dropdown")}>
           {data.map((val, index) => (
-            <li key={index} onClick={() => setValue(val)}>
+            <li
+              key={index}
+              onClick={() => {
+                setValue(val);
+                getValue(val);
+              }}
+            >
               {val}
             </li>
           ))}

@@ -11,6 +11,11 @@
 }
 .cam_menu,
 .type_menu,
-.status_menu {
+.status_menu,
+.calendar {
   display: flex;
+  color: #000;
+}
+.calendar p {
+  margin-right: 10px;
 }

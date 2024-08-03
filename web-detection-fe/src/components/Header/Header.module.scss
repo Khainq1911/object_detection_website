@@ -22,7 +22,7 @@
 .nav_container ul li {
   margin-right: 40px;
 }
-.nav_container ul li a {
+.nav_container a {
   color: #fff;
   text-decoration: none;
   font-size: 26px;
@@ -64,4 +64,12 @@
 }
 .menu p:hover {
   background-color: #ccc;
+}
+.filter_btn {
+  color: #fff;
+  text-decoration: none;
+  font-size: 26px;
+}
+.filter_btn:hover {
+  color: var(--hover-header-color);
 }

@@ -6,8 +6,10 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 const cx = classNames.bind(styles);
 function Modal({
   data,
+  handleSetAction,
   handleCloseModal,
   handleActiveConfirm,
+  handleMessageAction,
 }) {
   return (
     <div className={cx("modal_container")}>
@@ -98,6 +100,8 @@ function Modal({
         <button
           className={cx("accept_btn")}
           onClick={() => {
+            handleSetAction("accept");
+
             handleActiveConfirm();
           }}
         >
@@ -106,6 +110,8 @@ function Modal({
         <button
           className={cx("reject_btn")}
           onClick={() => {
+            handleSetAction("reject");
+
             handleActiveConfirm();
           }}
         >

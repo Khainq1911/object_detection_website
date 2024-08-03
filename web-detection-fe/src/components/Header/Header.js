@@ -7,17 +7,20 @@ import {
   faHouse,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { filterContext } from "~/hooks/useContext";
 
 const url = "http://localhost:1911/";
 const cx = classNames.bind(styles);
 
 function Header() {
+  const context = useContext(filterContext);
   const [activeMenu, setActiveMenu] = useState(false);
 
   const handleOpenMenu = () => {
     setActiveMenu(!activeMenu);
   };
+
   return (
     <div className={cx("header_container")}>
       <nav className={cx("nav_container")}>
@@ -35,13 +38,13 @@ function Header() {
             </a>
           </li>
           <li>
-            <a href={url}>
+            <div className={cx("filter_btn")} onClick={context.toggleFilter}>
               <FontAwesomeIcon
                 icon={faMagnifyingGlass}
                 className={cx("icon")}
               />
               Filter
-            </a>
+            </div>
           </li>
         </ul>
       </nav>

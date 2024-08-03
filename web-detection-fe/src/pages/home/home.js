@@ -1,11 +1,13 @@
 import HomeCard from "~/components/HomeCard";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as apiServices from "~/services/homeService";
 import classNames from "classnames/bind";
 import styles from "./home.module.scss";
 import Modal from "~/components/modal";
 import ModalConfirm from "~/components/modalConfirm";
 import Filter from "~/components/filter";
+import { filterContext } from "~/hooks/useContext";
+import { useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 function Home() {
@@ -16,10 +18,13 @@ function Home() {
   const [confirmMessage, setConfirmMessage] = useState(null);
   const [action, setAction] = useState();
 
+  const context = useContext(filterContext);
+
   const fetchData = async () => {
     try {
       const res = await apiServices.getMessage();
       setData(res.data);
+
       return res.data;
     } catch (error) {
       console.log(error);
@@ -46,15 +51,18 @@ function Home() {
       console.error(error);
     }
   };
+  const location = useLocation();
   useEffect(() => {
-    fetchData();
-    const shortPolling = setInterval(() => {
+    if (location.pathname === "/") {
       fetchData();
-    }, 50000);
-    return () => {
-      clearInterval(shortPolling);
-    };
-  }, []);
+      const shortPolling = setInterval(() => {
+        fetchData();
+      }, 5000);
+      return () => {
+        clearInterval(shortPolling);
+      };
+    }
+  }, [location.pathname]);
 
   const handleUpdateData = async () => {
     await fetchData();
@@ -78,9 +86,13 @@ function Home() {
   };
   const handleCloseConfirm = () => {
     setActiveConfirm(!activeConfirm);
+    document.body.style.overflow = "auto";
   };
   const handleSetAction = (action) => {
     setAction(action);
+  };
+  const getFilterData = (value) => {
+    setData(value);
   };
   return (
     <div className={cx("home_container")}>
@@ -120,7 +132,12 @@ function Home() {
           handleMessageAction={handleMessageAction}
         />
       )}
-      <Filter />
+      {context.openFilter && (
+        <Filter
+          getFilterData={getFilterData}
+          handleCloseFilter={context.closeFilter}
+        />
+      )}
     </div>
   );
 }

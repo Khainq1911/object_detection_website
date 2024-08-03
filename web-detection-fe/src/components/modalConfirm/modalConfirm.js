@@ -7,7 +7,6 @@ function ModalConfirm({
   action,
   data,
   handleCloseConfirm,
-  handleCloseModal,
   handleMessageAction,
 }) {
   const messageId = data.message_id;
