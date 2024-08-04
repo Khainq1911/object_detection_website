@@ -17,14 +17,15 @@
   float: right;
 }
 .confirm_btn button {
+  color: #fff;
   border-radius: 5px;
   width: 55px;
   height: 25px;
-  background-color: bisque;
+  background-color: #ff1919;
   border: none;
   margin-right: 10px;
   margin-top: 10px;
 }
 .confirm_btn button:first-child {
-  background-color: var(--watch-btn-color);
+  background-color: #5cd65c;
 }

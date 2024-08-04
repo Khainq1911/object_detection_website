@@ -15,13 +15,14 @@ const dataFilter = {
   type: ["All", "Human", "Vehicle"],
 };
 
-function Filter({ getFilterData, handleCloseFilter }) {
+function Filter({ getFilterData, handleCloseFilter, getDataChart }) {
   const [openIndex, setOpenIndex] = useState(null);
   const [dateRange, setDateRange] = useState([null, null]);
   const [camera, setCamera] = useState("all");
   const [status, setStatus] = useState("All");
   const [event, setEvent] = useState("All");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [timeFrom, timeTo] = dateRange;
 
@@ -53,7 +54,6 @@ function Filter({ getFilterData, handleCloseFilter }) {
       const timeFromISO = timeFrom ? timeFrom.toISOString() : "all";
       const timeToISO = timeTo ? timeTo.toISOString() : "all";
 
-        
       const res = await apiServices.filterData(
         eventFilter,
         timeFromISO,
@@ -61,15 +61,19 @@ function Filter({ getFilterData, handleCloseFilter }) {
         camera,
         statusFilter
       );
+      if (location.pathname.includes("/chart")) {
+        const newPath = `/chart/filter/${eventFilter}/${timeFromISO}/${timeToISO}/${camera}/${statusFilter}`;
 
-      
-      const newPath = `/filter/${eventFilter}/${timeFromISO}/${timeToISO}/${camera}/${statusFilter}`;
-      
-    
-      navigate(newPath, { replace: true });
-      
-     
-      getFilterData(res.data);
+        navigate(newPath, { replace: true });
+
+        getDataChart(res.data);
+      } else {
+        const newPath = `/filter/${eventFilter}/${timeFromISO}/${timeToISO}/${camera}/${statusFilter}`;
+
+        navigate(newPath, { replace: true });
+
+        getFilterData(res.data);
+      }
       handleCloseFilter();
     } catch (error) {
       console.error("Failed to fetch filter data:", error);

@@ -1,12 +1,18 @@
 import classNames from "classnames/bind";
 import styles from "./chart.module.scss";
 import PieChart from "~/components/chart/pieChart";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as apiServices from "~/services/homeService";
-
+import Filter from "~/components/filter";
+import { filterContext } from "~/hooks/useContext";
+import { useLocation, useParams } from "react-router-dom";
+import { useCallback } from "react";
 const cx = classNames.bind(styles);
 
 function Chart() {
+  const params = useParams();
+  const location = useLocation();
+  const context = useContext(filterContext);
   const [status, setStatus] = useState({
     labels: ["Accepted", "Rejected", "Pending"],
     datasets: [
@@ -119,6 +125,35 @@ function Chart() {
     }));
   };
 
+  const getDataChart = (val) => {
+    countStatus(val);
+    countCamera(val);
+    countObject(val);
+  };
+
+  const fetchFilterData = useCallback(async () => {
+    try {
+      const res = await apiServices.filterData(
+        params.eventType,
+        params.timeFrom,
+        params.timeTo,
+        params.cameraID,
+        params.status
+      );
+      countStatus(res.data);
+      countCamera(res.data);
+      countObject(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [
+    params.eventType,
+    params.timeFrom,
+    params.timeTo,
+    params.cameraID,
+    params.status,
+  ]);
+
   useEffect(() => {
     const getMessage = async () => {
       try {
@@ -130,13 +165,17 @@ function Chart() {
         console.log(error);
       }
     };
-    getMessage();
-    const updateData = setInterval(() => {
+    if (location.pathname === "/chart") {
       getMessage();
-    }, 60000);
+      const updateData = setInterval(() => {
+        getMessage();
+      }, 60000);
 
-    return () => clearInterval(updateData);
-  }, []);
+      return () => clearInterval(updateData);
+    } else {
+      fetchFilterData();
+    }
+  }, [location.pathname, fetchFilterData]);
 
   return (
     <div className={cx("chart_container")}>
@@ -152,6 +191,12 @@ function Chart() {
         <div className={cx("chart_title")}>Camera Chart</div>
         <PieChart chartData={camera} />
       </div>
+      {context.openFilter && (
+        <Filter
+          getDataChart={getDataChart}
+          handleCloseFilter={context.closeFilter}
+        />
+      )}
     </div>
   );
 }

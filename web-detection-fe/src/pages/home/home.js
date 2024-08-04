@@ -1,5 +1,5 @@
 import HomeCard from "~/components/HomeCard";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import * as apiServices from "~/services/homeService";
 import classNames from "classnames/bind";
 import styles from "./home.module.scss";
@@ -7,7 +7,7 @@ import Modal from "~/components/modal";
 import ModalConfirm from "~/components/modalConfirm";
 import Filter from "~/components/filter";
 import { filterContext } from "~/hooks/useContext";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 function Home() {
@@ -18,8 +18,10 @@ function Home() {
   const [confirmMessage, setConfirmMessage] = useState(null);
   const [action, setAction] = useState();
 
+  const params = useParams();
   const context = useContext(filterContext);
 
+  console.log(params);
   const fetchData = async () => {
     try {
       const res = await apiServices.getMessage();
@@ -30,6 +32,27 @@ function Home() {
       console.log(error);
     }
   };
+
+  const fetchFilterData = useCallback(async () => {
+    try {
+      const res = await apiServices.filterData(
+        params.eventType,
+        params.timeFrom,
+        params.timeTo,
+        params.cameraID,
+        params.status
+      );
+      setData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [
+    params.eventType,
+    params.timeFrom,
+    params.timeTo,
+    params.cameraID,
+    params.status,
+  ]);
 
   const handleMessageAction = async (action, messageId) => {
     try {
@@ -58,11 +81,14 @@ function Home() {
       const shortPolling = setInterval(() => {
         fetchData();
       }, 5000);
+
       return () => {
         clearInterval(shortPolling);
       };
+    } else if (params) {
+      fetchFilterData();
     }
-  }, [location.pathname]);
+  }, [location.pathname, fetchFilterData, params]);
 
   const handleUpdateData = async () => {
     await fetchData();
